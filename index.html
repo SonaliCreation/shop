@@ -3,61 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonali's Sowing - Exquisite Indian Outfits from Sarees</title>
+    <title>Sonali's Sowing - Exquisite Indian Outfits</title>
+    <link rel="stylesheet" href="style.css">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F0FC; /* Very light lavender pink */
+    <script href="style.css"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'accent-pink': '#FF007F',
+                        'medium-pink': '#FF69B4',
+                        'light-pink': '#FFB6C1',
+                    },
+                },
+            },
         }
-        .hero-section {
-            /* Placeholder for a beautiful saree image - ensure it's high quality and relevant */
-            background-image: url('https://placehold.co/1200x600/FFB6C1/333333?text=Custom+Indian+Outfits+from+Sarees'); /* Light pink background for hero */
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            color: white;
-            padding: 8rem 0; /* Responsive padding */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.4);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .service-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .btn-primary {
-            background-color: #FF007F; /* Deep Pink/Fuchsia */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .btn-primary:hover {
-            background-color: #E0006F; /* Slightly darker pink for hover */
-        }
-        .text-accent-pink {
-            color: #FF007F; /* Deep Pink/Fuchsia */
-        }
-        .bg-light-pink {
-            background-color: #FCE7F3; /* Light, vibrant pink */
-        }
-        .border-medium-pink {
-            border-color: #FF69B4; /* Hot Pink for borders */
-        }
-    </style>
+    </script>
 </head>
 <body class="text-gray-800">
 
@@ -98,15 +63,15 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 <!-- Nauvari Sarees & Blouses -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FFB6C1/ffffff?text=Nauvari+Saree" alt="Readymade Nauvari Saree & Blouse" class="w-full h-48 object-cover mb-4 rounded-md">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6 ">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Nauvari+Saree" alt="Readymade Nauvari Saree & Blouse" class="w-full h-48 object-cover mb-4 rounded-md">
                     <h3 class="text-2xl font-semibold text-accent-pink mb-2">Readymade Nauvari Sarees & Blouses</h3>
                     <p class="text-gray-600">Experience the elegance of traditional Marathi style with our ready-to-wear Nauvari sarees and matching blouses. Perfectly stitched for your comfort.</p>
                 </div>
 
                 <!-- One-Minute Sarees -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FFC0CB/ffffff?text=One-Minute+Saree" alt="One-Minute Saree" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=One-Minute+Saree" alt="One-Minute Saree" class="w-full h-48 object-cover mb-4 rounded-md">
                     <h3 class="text-2xl font-semibold text-accent-pink mb-2">One-Minute Sarees</h3>
                     <p class="text-gray-600">Say goodbye to pleating and pinning! We transform your existing saree into a ready-to-wear, hassle-free One-Minute Saree for all ages. Just wear and go!</p>
                 </div>
@@ -117,17 +82,48 @@
                     <h3 class="text-2xl font-semibold text-accent-pink mb-2">Custom Outfit Stitching</h3>
                     <p class="text-gray-600">From your beloved sarees, we can stitch a variety of custom Indian outfits tailored to your specifications.</p>
                 </div>
-            </div>
-
-            <h3 class="text-3xl font-bold text-center mb-8 text-accent-pink">Custom Outfits We Stitch:</h3>
-            <div class="flex flex-wrap justify-center gap-4 text-lg text-gray-700">
-                <span class="bg-white px-5 py-2 rounded-full shadow-sm border border-medium-pink">One-piece Gown</span>
-                <span class="bg-white px-5 py-2 rounded-full shadow-sm border border-medium-pink">Kurti</span>
-                <span class="bg-white px-5 py-2 rounded-full shadow-sm border border-medium-pink">Lehenga Choli (Gopi Dresses)</span>
-                <span class="bg-white px-5 py-2 rounded-full shadow-sm border border-medium-pink">Frock</span>
-                <span class="bg-white px-5 py-2 rounded-full shadow-sm border border-medium-pink">Plazo</span>
-                <span class="bg-white px-5 py-2 rounded-full shadow-sm border border-medium-pink">Saree Petticoat</span>
-                <span class="bg-white px-5 py-2 rounded-full shadow-sm border border-medium-pink">Saree Blouse</span>
+                <!-- Saree Blouse Stitching -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Saree+Blouse" alt="Saree Blouse Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Saree Blouse Stitching</h3>
+                    <p class="text-gray-600">We offer expert stitching services for saree blouses, ensuring a perfect fit and style that complements your saree.</p>
+                </div>
+                <!-- Saree Petticoat Stitching -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Saree+Petticoat" alt="Saree Petticoat Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Saree Petticoat Stitching</h3>
+                    <p class="text-gray-600">Get your saree petticoats stitched to perfection, ensuring comfort and style for your sarees.</p>
+                </div>
+                <!-- Plazo Stitching -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Plazo+Stitching" alt="Plazo Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Plazo Stitching</h3>
+                    <p class="text-gray-600">We also offer plazo stitching services, perfect for pairing with your sarees or wearing on their own.</p>
+                </div>
+                <!-- Frock Stitching -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Frock+Stitching" alt="Frock Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Frock Stitching</h3>
+                    <p class="text-gray-600">Transform your sarees into beautiful frocks, perfect for casual wear or special occasions.</p>
+                </div>
+                <!-- Kurti Stitching -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Kurti+Stitching" alt="Kurti Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Kurti Stitching</h3>
+                    <p class="text-gray-600">We can stitch stylish kurtis from your sarees, offering a modern twist to traditional attire.</p>
+                </div>
+                <!-- Lehenga Choli/Gopi Dresses -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Lehenga+Choli" alt="Lehenga Choli/Gopi Dresses" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Lehenga Choli (Gopi Dresses)</h3>
+                    <p class="text-gray-600">We also specialize in stitching beautiful lehenga cholis, perfect for festive occasions and celebrations.</p>
+                </div>
+                <!-- One-piece Gown -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6 col-start-2">
+                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=One-piece+Gown" alt="One-piece Gown" class="w-full h-48 object-cover mb-4 rounded-md">
+                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">One-piece Gown</h3>
+                    <p class="text-gray-600">Transform your sarees into elegant one-piece gowns, perfect for parties and special events.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -166,19 +162,19 @@
                         <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-pink">
                     </div>
                     <div class="mb-4">
-                        <input type="email" id="email" name="email" placeholder="Your Email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-pink">
+                        <input type="tel" id="tel" name="tel" placeholder="Your Phone Number" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-pink">
                     </div>
                     <div class="mb-6">
                         <textarea id="message" name="message" rows="5" placeholder="Your Message" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-pink"></textarea>
                     </div>
-                    <button type="submit" class="btn-primary w-full font-semibold shadow-lg hover:shadow-xl rounded-full px-8 py-3">Send Message</button>
+                    <button type="submit" class="btn-primary w-full font-semibold shadow-lg hover:shadow-xl rounded-full px-8 py-3" href="https://wa.me/13098267965?text="+message+ >Send Message</button>
                 </form>
             </div>
             <div class="mt-12 text-gray-700">
                 <p class="mb-2">Sonali Mokashi</p>
                 <p class="mb-2">Phone: <a href="tel:+13098267965" class="text-accent-pink hover:underline">309-826-7965</a></p>
                 <p class="mb-2">WhatsApp: <a href="https://wa.me/13098267965" target="_blank" class="text-accent-pink hover:underline">Message on WhatsApp (Preferred)</a></p>
-                <p>Email: <a href="mailto:info@sonalissowing.com" class="text-accent-pink hover:underline">info@sonalissowing.com</a></p>
+                <p>Email: <a href="mailto:info@sonalissowing.com" class="text-accent-pink hover:underline">sonalimokashi14@gmail.com</a></p>
             </div>
         </div>
     </section>
