@@ -3,193 +3,458 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonali's Sowing - Exquisite Indian Outfits</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Tailwind CSS CDN -->
+    <title>Sonali's Sowing - Transform Your Sarees into Dreams</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script href="style.css"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'accent-pink': '#FF007F',
-                        'medium-pink': '#FF69B4',
-                        'light-pink': '#FFB6C1',
-                    },
-                },
+      tailwind.config = {
+        theme: {
+          extend: {
+            keyframes: {
+              'gradient-move': {
+                '0%': { backgroundPosition: '0% 50%' },
+                '50%': { backgroundPosition: '100% 50%' },
+                '100%': { backgroundPosition: '0% 50%' },
+              }
             },
+            animation: {
+              'gradient-move': 'gradient-move 3s ease infinite',
+            },
+            colors: {
+                'primary-pink': '#FFC0CB', // Light pink for backgrounds
+                'dark-pink': '#C53086', // Deeper pink for headings/accents
+                'accent-pink': '#FCB6D0', // Slightly lighter accent pink
+                'light-gray-bg': '#F7F7F7', // Background for contact form
+            }
+          }
         }
+      }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="module">
+        // Firebase imports are kept for consistency, but largely unused in this static layout.
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        window.firebase = {
+            initializeApp,
+            getAuth,
+            signInAnonymously,
+            signInWithCustomToken,
+            onAuthStateChanged,
+            getFirestore
+        };
+
+        window.__app_id = 'standalone-sonali-app';
+        window.__firebase_config = JSON.stringify({});
+        window.__initial_auth_token = null;
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .header-nav-link {
+            font-size: 0.9rem;
+            color: #888; /* A darker gray */
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .header-nav-link:hover {
+            color: #C53086; /* Dark pink on hover */
+        }
+        .hero-button {
+            background-color: #C53086; /* Darker pink */
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px; /* Fully rounded */
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            transition: background-color 0.3s ease;
+        }
+        .hero-button:hover {
+            background-color: #A02070; /* Even darker pink on hover */
+        }
+        .Product-card {
+            background-color: #FFC0CB; /* Light pink background */
+            border-radius: 0.75rem; /* rounded-xl */
+            /* Removed padding from here as it's now applied to content below image */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* subtle shadow */
+            cursor: pointer; /* Indicate clickability */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden; /* Ensure rounded corners clip content */
+        }
+        .Product-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .Product-card-content {
+            padding: 1.5rem; /* Apply padding to the content area */
+        }
+        .Product-card h3 {
+            font-weight: 600; /* semibold */
+            color: #C53086; /* Dark pink */
+            font-size: 1.25rem; /* text-xl */
+            margin-bottom: 0.5rem;
+        }
+        .Product-card p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.4;
+        }
+        .about-section-left {
+            background-color: #FFC0CB; /* Light pink background */
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .contact-form-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            box-sizing: border-box; /* Include padding in width */
+        }
+        .contact-submit-button {
+            background-color: #C53086; /* Darker pink */
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            transition: background-color 0.3s ease;
+            width: 100%; /* Full width */
+        }
+        .contact-submit-button:hover {
+            background-color: #A02070; /* Even darker pink on hover */
+        }
+        .Product-detail-image {
+            width: 100%;
+            height: 300px; /* Fixed height for consistency */
+            object-fit: cover; /* Cover the area, cropping if necessary */
+            border-radius: 0.75rem; /* rounded-xl */
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
 </head>
-<body class="text-gray-800">
+<body>
+    <div id="root"></div>
 
-    <!-- Header Section -->
-    <header class="bg-white shadow-sm py-4">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-            <!-- Brand Name/Logo -->
-            <a href="#" class="text-3xl font-bold text-accent-pink rounded-md p-2 mb-4 md:mb-0">Sonali's Sowing</a>
-            <!-- Navigation Menu -->
-            <nav>
-                <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
-                    <li><a href="#home" class="text-gray-600 hover:text-accent-pink font-medium rounded-md p-2">Home</a></li>
-                    <li><a href="#services" class="text-gray-600 hover:text-accent-pink font-medium rounded-md p-2">Our Services</a></li>
-                    <li><a href="#about" class="text-gray-600 hover:text-accent-pink font-medium rounded-md p-2">About Us</a></li>
-                    <li><a href="#contact" class="text-gray-600 hover:text-accent-pink font-medium rounded-md p-2">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-section relative flex items-center justify-center text-center rounded-b-lg overflow-hidden">
-        <div class="overlay"></div>
-        <div class="relative z-10 p-8">
-            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight rounded-md p-2">Transform Your Sarees into Dreams</h1>
-            <p class="text-xl md:text-2xl mb-8 rounded-md p-2">Custom-stitched Indian outfits crafted with love and care.</p>
-            <a href="#services" class="btn-primary inline-block font-semibold shadow-lg hover:shadow-xl rounded-full px-8 py-3">Discover Our Creations</a>
-        </div>
-    </section>
+        const { initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } = window.firebase;
 
-    <!-- Our Services Section -->
-    <section id="services" class="py-16 bg-light-pink rounded-lg m-4">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12 text-accent-pink">Our Custom Outfit Services</h2>
-            <p class="text-center text-lg text-gray-700 mb-10 max-w-3xl mx-auto">
-                At Sonali's Sowing, we specialize in transforming your new or old sarees into beautiful, custom-fitted Indian outfits. Simply courier your saree to us, and we'll take care of the rest!
-            </p>
+        const firebaseConfig = typeof window.__firebase_config !== 'undefined' ? JSON.parse(window.__firebase_config) : {};
+        const initialAuthToken = typeof window.__initial_auth_token !== 'undefined' ? window.__initial_auth_token : null;
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                <!-- Nauvari Sarees & Blouses -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6 ">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Nauvari+Saree" alt="Readymade Nauvari Saree & Blouse" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Readymade Nauvari Sarees & Blouses</h3>
-                    <p class="text-gray-600">Experience the elegance of traditional Marathi style with our ready-to-wear Nauvari sarees and matching blouses. Perfectly stitched for your comfort.</p>
-                </div>
+        const ProductsData = [
+            {
+                title: "Nauvari Sarees & Blouses",
+                description: "Readymade Nauvari Sarees & Blouses in traditional Marathi style, ready to wear.",
+                fullDescription: `Nauvari Sarees & Blouses are traditional Marathi attire, known for their unique nine-yard drape. We offer exquisite readymade Nauvari sarees and blouses, meticulously stitched for your comfort and elegance. Perfect for festivals, weddings, or cultural events, these outfits embody the rich heritage of Maharashtra. Our blouses are perfectly fitted to complement the Nauvari drape, ensuring a graceful and authentic look. Each piece is crafted with attention to detail, bringing out the beauty of the fabric and design.`,
+                imageSrc: "nuavarisaree.jpg"
+            },
+            {
+                title: "One-Minute Sarees",
+                description: "Ready-to-wear sarees stitched from your existing saree, for all ages. No pleating, no pinning — just wear and go!",
+                fullDescription: `Experience the ultimate convenience with our One-Minute Sarees! These innovative ready-to-wear sarees are expertly stitched from your existing sarees, eliminating the need for complex pleating and pinning. Simply slip it on and you're ready to go. Ideal for all ages, from young girls to adults, these sarees blend traditional style with modern ease, ensuring you look stunning in no time. Perfect for busy mornings, travel, or any occasion where you want to look elegant effortlessly.`,
+                imageSrc: "oneminutesaree.jpg"
+            },
+            {
+                title: "Custom Outfits from Sarees",
+                description: "Transform your beloved sarees into custom outfits tailored to your specifications.",
+                fullDescription: `Unleash the full potential of your sarees by transforming them into unique custom outfits. Whether it's a cherished old saree or a new one you want to repurpose, we can create stunning designs tailored specifically for you. From modern silhouettes to traditional cuts, your vision guides our craft. This service is perfect for those who desire bespoke fashion that reflects their personal style and makes the most of their beautiful fabrics.`,
+                imageSrc: "https://picsum.photos/seed/customoutfit/400/250"
+            },
+            {
+                title: "Saree Blouse",
+                description: "Expert saree blouse stitching, ensuring a perfect fit to your style and complementing your saree.",
+                fullDescription: `A perfectly fitted blouse can elevate the entire look of your saree. We specialize in expert saree blouse stitching, ensuring not just a perfect fit but also a design that complements your saree and personal style. Whether you prefer traditional designs, modern cuts, or intricate embellishments, we bring your vision to life with precision and quality craftsmanship. Send us your measurements and design ideas, and we'll create a blouse that truly enhances your attire.`,
+                imageSrc: "https://picsum.photos/seed/blouse/400/250"
+            },
+            {
+                title: "Saree Petticoat",
+                description: "Custom-stitched saree petticoats, providing comfort and shape for your sarees.",
+                fullDescription: `The right petticoat provides the essential foundation for a graceful saree drape. Our custom-stitched saree petticoats are designed for optimal comfort and to give your saree the perfect shape. We use quality fabrics and precise stitching to ensure a smooth silhouette and comfortable wear throughout the day. Available in various colors and styles to match your sarees perfectly.`,
+                imageSrc: "https://picsum.photos/seed/petticoat/400/250"
+            },
+            {
+                title: "Plazo Stitching",
+                description: "Stylish and comfortable plazo stitching, perfect for pairing with your kurtis or creating an Indo-Western look.",
+                fullDescription: `Add a touch of contemporary style to your wardrobe with our custom plazo stitching service. Plazos are versatile and comfortable, perfect for pairing with kurtis for a traditional look or with tops for a chic Indo-Western ensemble. We ensure comfortable fits and elegant drapes, tailored to your measurements and fabric. Choose from various styles and lengths to create your ideal plazo.`,
+                imageSrc: "https://picsum.photos/seed/plazo/400/250"
+            },
+            {
+                title: "Frock Stitching",
+                description: "Create charming and beautiful frocks, perfect for casual wear or special occasions.",
+                fullDescription: `Transform your sarees into charming and beautiful frocks for all ages. Whether it's a playful casual frock for a child or an elegant designer frock for an adult's special occasion, we craft each piece with creativity and care. This service is ideal for repurposing beloved sarees into delightful new outfits, adding a unique touch to your wardrobe.`,
+                imageSrc: "https://picsum.photos/seed/frock/400/250"
+            },
+            {
+                title: "Kurti Stitching",
+                description: "Tailored kurti designs from your sarees, offering a modern twist to traditional attire.",
+                fullDescription: `Give your sarees a modern twist by having them stitched into stylish kurtis. We offer tailored kurti designs that combine comfort with contemporary fashion. Perfect for everyday wear or festive occasions, our kurtis are custom-made to your measurements and chosen style, ensuring a flattering fit and unique design. This is a fantastic way to extend the life and versatility of your sarees.`,
+                imageSrc: "https://picsum.photos/seed/kurti/400/250"
+            },
+            {
+                title: "Lehenga Choli (Gopi Dresses)",
+                description: "Elegant lehenga choli and gopi dresses, custom-stitched, perfect for festive occasions and celebrations.",
+                fullDescription: `Step into elegance with our custom-stitched lehenga choli and gopi dresses. Ideal for weddings, festivals, and other grand celebrations, these outfits are crafted to perfection from your sarees. We focus on intricate details, comfortable fits, and designs that truly stand out, ensuring you look and feel magnificent for any special event.`,
+                imageSrc: "lehegacholi.jpg"
+            },
+            {
+                title: "Panjabi Dresses",
+                description: "Traditional and contemporary Panjabi dresses, custom-stitched for comfort and style.",
+                fullDescription: `Our custom-stitched Panjabi dresses offer a perfect blend of tradition and modern elegance. These comfortable yet stylish outfits, typically comprising a long tunic (kameez), loose trousers (salwar), and a matching scarf (dupatta), are versatile for various occasions. Whether you're looking for everyday wear, festive attire, or something for a special event, we tailor each Panjabi dress to your specifications, ensuring a flattering fit and beautiful design from your chosen fabrics. We pay meticulous attention to details, including necklines, sleeve styles, and embellishments, to create a unique piece that reflects your personal taste.`,
+                imageSrc: "panjabicress.jpg"
+            }
+        ];
 
-                <!-- One-Minute Sarees -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=One-Minute+Saree" alt="One-Minute Saree" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">One-Minute Sarees</h3>
-                    <p class="text-gray-600">Say goodbye to pleating and pinning! We transform your existing saree into a ready-to-wear, hassle-free One-Minute Saree for all ages. Just wear and go!</p>
-                </div>
+        // Component to display product details
+        const ProductDetail = ({ product, onBack }) => {
+            if (!product) {
+                return null; // Should not happen if rendered conditionally, but good practice
+            }
 
-                <!-- Custom Outfit Stitching -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Custom+Outfit" alt="Custom Outfit Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Custom Outfit Stitching</h3>
-                    <p class="text-gray-600">From your beloved sarees, we can stitch a variety of custom Indian outfits tailored to your specifications.</p>
-                </div>
-                <!-- Saree Blouse Stitching -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Saree+Blouse" alt="Saree Blouse Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Saree Blouse Stitching</h3>
-                    <p class="text-gray-600">We offer expert stitching services for saree blouses, ensuring a perfect fit and style that complements your saree.</p>
-                </div>
-                <!-- Saree Petticoat Stitching -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Saree+Petticoat" alt="Saree Petticoat Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Saree Petticoat Stitching</h3>
-                    <p class="text-gray-600">Get your saree petticoats stitched to perfection, ensuring comfort and style for your sarees.</p>
-                </div>
-                <!-- Plazo Stitching -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Plazo+Stitching" alt="Plazo Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Plazo Stitching</h3>
-                    <p class="text-gray-600">We also offer plazo stitching services, perfect for pairing with your sarees or wearing on their own.</p>
-                </div>
-                <!-- Frock Stitching -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Frock+Stitching" alt="Frock Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Frock Stitching</h3>
-                    <p class="text-gray-600">Transform your sarees into beautiful frocks, perfect for casual wear or special occasions.</p>
-                </div>
-                <!-- Kurti Stitching -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Kurti+Stitching" alt="Kurti Stitching" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Kurti Stitching</h3>
-                    <p class="text-gray-600">We can stitch stylish kurtis from your sarees, offering a modern twist to traditional attire.</p>
-                </div>
-                <!-- Lehenga Choli/Gopi Dresses -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=Lehenga+Choli" alt="Lehenga Choli/Gopi Dresses" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">Lehenga Choli (Gopi Dresses)</h3>
-                    <p class="text-gray-600">We also specialize in stitching beautiful lehenga cholis, perfect for festive occasions and celebrations.</p>
-                </div>
-                <!-- One-piece Gown -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden service-card p-6 col-start-2">
-                    <img src="https://placehold.co/400x300/FF69B4/ffffff?text=One-piece+Gown" alt="One-piece Gown" class="w-full h-48 object-cover mb-4 rounded-md">
-                    <h3 class="text-2xl font-semibold text-accent-pink mb-2">One-piece Gown</h3>
-                    <p class="text-gray-600">Transform your sarees into elegant one-piece gowns, perfect for parties and special events.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Us Section -->
-    <section id="about" class="py-16 bg-white rounded-lg m-4">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-            <div class="md:w-1/2">
-                <img src="https://placehold.co/600x400/FCE7F3/FF007F?text=Sonali+Mokashi" alt="Sonali Mokashi" class="w-full h-auto rounded-lg shadow-lg">
-            </div>
-            <div class="md:w-1/2">
-                <h2 class="text-4xl font-bold mb-6 text-accent-pink">About Sonali's Sowing</h2>
-                <p class="text-lg text-gray-700 mb-4">
-                    Hello Friends! Welcome to Sonali's Sowing, where my passion for designing and stitching comes to life. I'm Sonali Mokashi, and I'm excited to help you transform your beloved sarees, whether new or old, into beautiful, custom-fitted Indian outfits.
-                </p>
-                <p class="text-lg text-gray-700 mb-4">
-                    I believe that every piece I create should be simple, elegant, and tailored to enhance your saree's unique beauty. Each outfit is crafted with love and care, ensuring the highest quality and a perfect fit.
-                </p>
-                <p class="text-lg text-gray-700">
-                    Once your outfit is ready, I offer convenient shipping services. I can courier your finished outfit directly to your doorstep, anywhere in India (or outside if needed).
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-light-pink rounded-lg m-4">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl font-bold mb-8 text-accent-pink">Get in Touch</h2>
-            <p class="text-lg text-gray-700 mb-8">
-                Interested in transforming your saree or have questions about our services? The best way to get started is by messaging me on WhatsApp!
-            </p>
-            <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
-                <form>
-                    <div class="mb-4">
-                        <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-pink">
+            return (
+                <div className="bg-white p-6 sm:p-8 md:p-12 rounded-xl shadow-xl border border-gray-100 max-w-4xl mx-auto mb-16">
+                    <button
+                        onClick={onBack}
+                        className="mb-6 flex items-center text-dark-pink hover:text-pink-800 transition duration-300 font-semibold"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        Back to Products
+                    </button>
+                    {/* Image for Product Detail */}
+                    {product.imageSrc && (
+                        <img src={product.imageSrc.replace('/400/250', '/800/500')} alt={product.title} className="Product-detail-image" />
+                    )}
+                    <h2 className="text-3xl sm:text-4xl font-extrabold text-dark-pink mb-6 text-center">
+                        {product.title}
+                    </h2>
+                    <p className="text-lg text-gray-700 leading-relaxed mb-8">
+                        {product.fullDescription}
+                    </p>
+                    {/* You can add more specific details or images here if your data had them */}
+                    <div className="text-center mt-8">
+                         <p className="text-xl font-bold text-gray-800 mb-4">
+                            Ready to transform your sarees?
+                        </p>
+                        <p className="text-lg text-gray-700 mt-2">
+                            For inquiries, please message Sonali Mokashi on WhatsApp: <a href="tel:+13098267965" className="text-blue-700 hover:underline font-bold">309-826-7965</a>
+                        </p>
                     </div>
-                    <div class="mb-4">
-                        <input type="tel" id="tel" name="tel" placeholder="Your Phone Number" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-pink">
-                    </div>
-                    <div class="mb-6">
-                        <textarea id="message" name="message" rows="5" placeholder="Your Message" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-pink"></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary w-full font-semibold shadow-lg hover:shadow-xl rounded-full px-8 py-3" href="https://wa.me/13098267965?text="+message+ >Send Message</button>
-                </form>
-            </div>
-            <div class="mt-12 text-gray-700">
-                <p class="mb-2">Sonali Mokashi</p>
-                <p class="mb-2">Phone: <a href="tel:+13098267965" class="text-accent-pink hover:underline">309-826-7965</a></p>
-                <p class="mb-2">WhatsApp: <a href="https://wa.me/13098267965" target="_blank" class="text-accent-pink hover:underline">Message on WhatsApp (Preferred)</a></p>
-                <p>Email: <a href="mailto:info@sonalissowing.com" class="text-accent-pink hover:underline">sonalimokashi14@gmail.com</a></p>
-            </div>
-        </div>
-    </section>
+                </div>
+            );
+        };
 
-    <!-- Footer Section -->
-    <footer class="bg-gray-800 text-white py-8 mt-8 rounded-t-lg">
-        <div class="container mx-auto px-4 text-center">
-            <p>&copy; 2025 Sonali's Sowing. All rights reserved.</p>
-            <div class="flex justify-center space-x-4 mt-4">
-                <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
-                <span class="text-gray-400">|</span>
-                <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
 
+        const App = () => {
+            const [userId, setUserId] = useState(null);
+            const [isAuthReady, setIsAuthReady] = useState(false);
+            const [selectedProduct, setSelectedProduct] = useState(null);
+
+            useEffect(() => {
+                // Firebase initialization - kept for potential future use but not critical for this static layout
+                try {
+                    if (Object.keys(firebaseConfig).length > 0 && typeof initializeApp === 'function') {
+                        const app = initializeApp(firebaseConfig);
+                        const authInstance = getAuth(app);
+                        
+                        const signIn = async () => {
+                            try {
+                                if (initialAuthToken) {
+                                    await signInWithCustomToken(authInstance, initialAuthToken);
+                                } else {
+                                    await signInAnonymously(authInstance);
+                                }
+                            } catch (error) {
+                                console.error("Firebase authentication error:", error);
+                            }
+                        };
+
+                        const unsubscribe = onAuthStateChanged(authInstance, (user) => {
+                            if (user) {
+                                setUserId(user.uid);
+                            } else {
+                                setUserId(crypto.randomUUID());
+                            }
+                            setIsAuthReady(true);
+                        });
+
+                        signIn();
+
+                        return () => unsubscribe();
+                    } else {
+                        console.warn("Firebase not initialized. Missing config or Firebase functions not available.");
+                        setUserId(crypto.randomUUID()); // Generate a random ID if Firebase isn't used
+                        setIsAuthReady(true);
+                    }
+                } catch (error) {
+                    console.error("Failed to initialize Firebase:", error);
+                }
+            }, []);
+
+            // Function to handle product card click
+            const handleProductClick = (product) => {
+                setSelectedProduct(product);
+                // Optionally scroll to the top of the detail view
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            // Function to go back to the product list
+            const handleBackToProducts = () => {
+                setSelectedProduct(null);
+                // Optionally scroll back to the products section if it's not at the top
+                 const productsSection = document.getElementById('Products');
+                if (productsSection) {
+                    productsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            // Smooth scroll for "Discover Our Creations" button
+            const scrollToProducts = (e) => {
+                e.preventDefault(); // Prevent default anchor jump
+                const productsSection = document.getElementById('Products');
+                if (productsSection) {
+                    productsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-primary-pink-200 font-sans antialiased flex flex-col items-center">
+                    {/* Header/Navigation */}
+                    <header className="w-full bg-white py-4 px-8 flex justify-between items-center shadow-sm">
+                        <div className="text-xl font-bold text-dark-pink">Sonali's Sowing</div>
+                        <nav>
+                            <ul className="flex space-x-6">
+                                <li><a href="#" className="header-nav-link">Home</a></li>
+                                <li><a href="#Products" className="header-nav-link">Our Products</a></li>
+                                <li><a href="#about" className="header-nav-link">About Us</a></li>
+                                <li><a href="#contact" className="header-nav-link">Contact Us</a></li>
+                            </ul>
+                        </nav>
+                    </header>
+
+                    {/* Hero Section */}
+                    <section className="w-full bg-primary-pink py-20 text-center relative overflow-hidden" style={{ backgroundImage: 'linear-gradient(to right, #FFC0CB, #FCB6D0)', backgroundSize: '200% 100%', animation: 'gradient-move 10s ease infinite' }}>
+                        <div className="relative z-10 max-w-4xl mx-auto px-4">
+                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">
+                                Transform Your Sarees into Dreams
+                            </h2>
+                            <p className="text-lg sm:text-xl text-white mb-8">
+                                Custom-stitched Indian outfits crafted with love and care.
+                            </p>
+                            <a href="#Products" onClick={scrollToProducts} className="hero-button inline-block">
+                                Discover Our Creations
+                            </a>
+                        </div>
+                    </section>
+
+                    {/* Conditional Rendering of Products Grid or Product Detail */}
+                    {selectedProduct ? (
+                        <main className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 mt-16">
+                            <ProductDetail product={selectedProduct} onBack={handleBackToProducts} />
+                        </main>
+                    ) : (
+                        <main className="w-full">
+                            {/* Our Custom Outfit Products Section */}
+                            <section id="Products" className="w-full py-16 bg-white px-4 sm:px-8 lg:px-12">
+                                <div className="max-w-7xl mx-auto text-center mb-12">
+                                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark-pink mb-4">
+                                        Our Custom Outfit Products
+                                    </h2>
+                                    <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+                                        At Sonali's Sowing, we specialize in transforming your sarees into unique, custom-stitched Indian outfits. Simply courier your saree to us, and we'll take care of the custom design process.
+                                    </p>
+                                </div>
+                                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {ProductsData.map((product, index) => (
+                                        <div key={index} className="Product-card" onClick={() => handleProductClick(product)}>
+                                            {/* Image for Product Card */}
+                                            <img src={product.imageSrc} alt={product.title} className="w-full h-40 object-cover rounded-t-lg" />
+                                            <div className="Product-card-content">
+                                                <h3>{product.title}</h3>
+                                                <p>{product.description}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+
+                            {/* About Sonali's Sowing Section */}
+                            <section id="about" className="w-full py-16 bg-primary-pink px-4 sm:px-8 lg:px-12">
+                                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                                    <div className="about-section-left py-16 lg:py-24">
+                                        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-dark-pink text-center leading-tight">
+                                            Sonali Mokashi
+                                        </h2>
+                                    </div>
+                                    <div className="text-gray-700">
+                                        <h2 className="text-3xl sm:text-4xl font-extrabold text-dark-pink mb-4">
+                                            About Sonali's Sowing
+                                        </h2>
+                                        <p className="leading-relaxed text-lg mb-4">
+                                            Hello Friends! 😊 I’m excited to share my passion for designing and stitching a wide range of Indian outfits — all made from your sarees, whether new or old! Simply courier your saree to me, and I’ll take care of the rest.
+                                        </p>
+                                        <p className="leading-relaxed text-lg mb-4">
+                                            I create each piece with love and care — simple, elegant, and tailored to your saree’s beauty. Shipping is available – I can courier your finished outfit to your doorstep, anywhere in India (or outside if needed).
+                                        </p>
+                                        <p className="leading-relaxed text-lg">
+                                            <strong className="text-dark-pink">Sonali Mokashi</strong><br />
+                                            📞 <a href="tel:+13098267965" className="text-blue-700 hover:underline">309-826-7965</a><br />
+                                            💬 WhatsApp message preferred
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* Get In Touch / Contact Form Section */}
+                            <section id="contact" className="w-full py-16 bg-light-gray-bg px-4 sm:px-8 lg:px-12">
+                                <div className="max-w-xl mx-auto text-center mb-12">
+                                    <h2 className="text-3xl sm:text-4xl font-extrabold text-dark-pink mb-4">
+                                        Get In Touch
+                                    </h2>
+                                    <p className="text-lg text-gray-700">
+                                        Interested in transforming your sarees or have questions? Message me on WhatsApp!
+                                    </p>
+                                </div>
+                                <div className="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+                                    <form>
+                                        <input type="text" placeholder="Your Name" className="contact-form-field" />
+                                        <input type="email" placeholder="Your Email" className="contact-form-field" />
+                                        <textarea placeholder="Your Message" rows="5" className="contact-form-field resize-y"></textarea>
+                                        <button type="submit" className="contact-submit-button">Send Message</button>
+                                    </form>
+                                </div>
+                            </section>
+                        </main>
+                    )}
+
+                    {/* Footer */}
+                    <footer className="w-full max-w-5xl text-center text-gray-600 mt-10 py-6 border-t border-gray-200">
+                        <p className="text-md">&copy; {new Date().getFullYear()} Sonali's Sowing. All rights reserved.</p>
+                        {isAuthReady && userId && (
+                            <p className="text-sm mt-2 text-gray-500">User ID: {userId}</p>
+                        )}
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>
